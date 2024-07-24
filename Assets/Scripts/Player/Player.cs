@@ -19,18 +19,21 @@ public class Player : MonoBehaviour
 
     }
     
-    private void TakeDamage(int damage)
+    private void TakeDamage(int damage, Collider2D myCollider)
     {
-        health -= damage;
-        
-        Debug.Log("Decrease Player HP by " + damage);
-
-        if (health <= 0)
+        if (myCollider == GetComponent<Collider2D>())
         {
-            Debug.Log("Player Dead");
-        }
+            health -= damage;
+            
+            Debug.Log("Decrease Player HP by " + damage);
 
-        Die();
+            if (health <= 0)
+            {
+                Debug.Log("Player Dead");
+            }
+
+            Die();
+        }
     }
 
     private void Die()

@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnSwimInput(InputAction.CallbackContext context)
     {
-        movementDirection = context.ReadValue<Vector2>().normalized;
+        movementDirection = context.ReadValue<Vector2>();
     }
 
     private void HandleMovement()
