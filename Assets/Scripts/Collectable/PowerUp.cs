@@ -6,7 +6,8 @@ public class PowerUp : MonoBehaviour
     {
         Speed,
         Damage,
-        Health
+        Health,
+        ShieldCooldown
     }
 
     [SerializeField] private PowerUpType powerUpType;
@@ -19,6 +20,9 @@ public class PowerUp : MonoBehaviour
 
     public delegate void HealthPowerUp();
     public static HealthPowerUp healthPowerUp;
+
+    public delegate void ShieldCooldownReductionPowerUp();
+    public static ShieldCooldownReductionPowerUp shieldCooldownReductionPowerUp;
 
     private void OnTriggerEnter2D(Collider2D body)
     {
@@ -38,6 +42,10 @@ public class PowerUp : MonoBehaviour
 
                 case PowerUpType.Health:
                     healthPowerUp?.Invoke();
+                    break;
+
+                case PowerUpType.ShieldCooldown:
+                    shieldCooldownReductionPowerUp?.Invoke();
                     break;
             }
 

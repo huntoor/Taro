@@ -4,8 +4,10 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private HealthBar healthBar;
 
-    private int maxHealth = 10;
+    private int maxHealth;
     private int currentHealth;
+
+    public bool IsInvincible { private get; set; } = false;
 
     private void Awake()
     {
@@ -14,6 +16,8 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        maxHealth = GetComponent<PlayerSaveSystem>().CurrentPlayerStatus.playerMaxHealth;
+        
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
     }
@@ -25,19 +29,22 @@ public class Player : MonoBehaviour
     
     private void TakeDamage(int damage, Collider2D myCollider)
     {
-        if (myCollider == GetComponent<Collider2D>())
+        if (!IsInvincible)
         {
-            currentHealth -= damage;
-            healthBar.SetHealth(currentHealth);
-            
-            Debug.Log("Decrease Player HP by " + damage);
-
-            if (currentHealth <= 0)
+            if (myCollider == GetComponent<Collider2D>())
             {
-                Debug.Log("Player Dead");
-            }
+                currentHealth -= damage;
+                healthBar.SetHealth(currentHealth);
+                
+                Debug.Log("Decrease Player HP by " + damage);
 
-            Die();
+                if (currentHealth <= 0)
+                {
+                    Debug.Log("Player Dead");
+                }
+
+                Die();
+            }
         }
     }
 
