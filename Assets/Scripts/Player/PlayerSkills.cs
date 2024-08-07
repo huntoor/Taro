@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,10 +18,21 @@ public class PlayerSkills : MonoBehaviour
     {
         playerInputActions = new PlayerInputActions();
 
+        attackDelay = 0f;
+    }
+
+    private void OnEnable()
+    {
         playerInputActions.Movement.Attack.Enable();
         playerInputActions.Movement.Attack.performed += FireWaterBullet;
 
-        attackDelay = 0f;
+        PowerUp.speedPowerUp += SpeedPowerUp;
+        PowerUp.damagePowerUp += DamagePowerUp;
+        PowerUp.healthPowerUp += HealthPowerUp;
+
+        Skill.blastSkill += BlastSkill;
+        Skill.rapidFireSkill += RapidFireSkill;
+        Skill.laserSkill += LaserSkill;
     }
 
     private void Start()
@@ -34,8 +44,6 @@ public class PlayerSkills : MonoBehaviour
     private void Update()
     {
         attackDelay -= Time.deltaTime;
-
-
     }
 
     private void FireWaterBullet(InputAction.CallbackContext context)
@@ -52,5 +60,38 @@ public class PlayerSkills : MonoBehaviour
 
             attackDelay = 0.3f;
         }
+    }
+
+    private void DamagePowerUp()
+    {
+        Debug.Log("Damage Power Up");
+    }
+
+    private void SpeedPowerUp()
+    {
+        Debug.Log("Speed Power Up");
+    }
+
+    private void HealthPowerUp()
+    {
+        int hpToIncrease = 1;
+        
+        GetComponent<Player>().IncreaseHealth(hpToIncrease);
+    }
+
+    private void RapidFireSkill()
+    {
+        Debug.Log("Rapid Fire");
+    }
+
+    private void BlastSkill()
+    {
+        Debug.Log("Blast Skill");
+
+    }
+
+    private void LaserSkill()
+    {
+        Debug.Log("Laser Skill");
     }
 }

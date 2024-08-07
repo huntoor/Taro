@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private float health;
+    [SerializeField] private HealthBar healthBar;
+
+    private int maxHealth = 10;
+    private int currentHealth;
 
     private void Awake()
     {
@@ -11,7 +14,8 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        health = 10;
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
     }
 
     private void Respawn()
@@ -23,16 +27,26 @@ public class Player : MonoBehaviour
     {
         if (myCollider == GetComponent<Collider2D>())
         {
-            health -= damage;
+            currentHealth -= damage;
+            healthBar.SetHealth(currentHealth);
             
             Debug.Log("Decrease Player HP by " + damage);
 
-            if (health <= 0)
+            if (currentHealth <= 0)
             {
                 Debug.Log("Player Dead");
             }
 
             Die();
+        }
+    }
+
+    public void IncreaseHealth(int hp)
+    {
+        if (currentHealth < maxHealth)
+        {
+            currentHealth += hp;
+            healthBar.SetHealth(currentHealth);
         }
     }
 
