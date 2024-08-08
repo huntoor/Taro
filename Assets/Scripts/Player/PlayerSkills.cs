@@ -1,56 +1,41 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerSkills : MonoBehaviour
 {
-    [Header("Bullet")]
-    [SerializeField] private Transform firingPosition;
-    [SerializeField] private GameObject bullet;
-
-    private int bulletSpeed;
-    private int bulletDamage;
-
-    private float attackDelay;
-
     private PlayerInputActions playerInputActions;
 
     private void Awake()
     {
         playerInputActions = new PlayerInputActions();
-
-        playerInputActions.Movement.Attack.Enable();
-        playerInputActions.Movement.Attack.performed += FireWaterBullet;
-
-        attackDelay = 0f;
+    }
+    
+    private void OnEnable()
+    {
+        Skill.blastSkill += BlastSkill;
+        Skill.rapidFireSkill += RapidFireSkill;
+        Skill.laserSkill += LaserSkill;
     }
 
-    private void Start()
+    private void OnDestroy()
     {
-        bulletSpeed = 50;
-        bulletDamage = 1;
+        Skill.blastSkill -= BlastSkill;
+        Skill.rapidFireSkill -= RapidFireSkill;
+        Skill.laserSkill -= LaserSkill;
     }
 
-    private void Update()
+    private void RapidFireSkill()
     {
-        attackDelay -= Time.deltaTime;
+        Debug.Log("Rapid Fire");
+    }
 
+    private void BlastSkill()
+    {
+        Debug.Log("Blast Skill");
 
     }
 
-    private void FireWaterBullet(InputAction.CallbackContext context)
+    private void LaserSkill()
     {
-        if (attackDelay < 0)
-        {
-            Debug.Log("Fire Bullet");
-            GameObject waterBullet = Instantiate(bullet, firingPosition.position, transform.rotation);
-
-            waterBullet.GetComponent<Bullet>().BulletSpeed = bulletSpeed;
-            waterBullet.GetComponent<Bullet>().BulletDamage = bulletDamage;
-            waterBullet.GetComponent<Bullet>().TargetTag = "Enemy";
-
-
-            attackDelay = 0.3f;
-        }
+        Debug.Log("Laser Skill");
     }
 }

@@ -2,16 +2,39 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private float health;
+    [SerializeField] private HealthBar healthBar;
 
-    private void Awake()
+    private int maxHealth;
+    private int currentHealth;
+
+    public bool IsInvincible { private get; set; } = false;
+
+    public delegate void SetMaxHealth(int maxHealth);
+    public static SetMaxHealth setMaxHealth;
+
+    public delegate void UpdateHealth(int currentHealth);
+    public static UpdateHealth updateHealth;
+
+    public delegate void PlayerDead();
+    public static PlayerDead playerDead;
+
+    private void OnEnable()
     {
         Bullet.damageTarget += TakeDamage;
     }
 
+    private void OnDestroy()
+    {
+        Bullet.damageTarget -= TakeDamage;
+    }
+
     private void Start()
     {
-        health = 10;
+        maxHealth = PlayerSaveSystem.Instance.CurrentPlayerStatus.playerMaxHealth;
+        
+        currentHealth = maxHealth;
+        setMaxHealth?.Invoke(maxHealth);
+        //healthBar.SetMaxHealth(maxHealth);
     }
 
     private void Respawn()
@@ -21,23 +44,36 @@ public class Player : MonoBehaviour
     
     private void TakeDamage(int damage, Collider2D myCollider)
     {
-        if (myCollider == GetComponent<Collider2D>())
+        if (!IsInvincible)
         {
-            health -= damage;
-            
-            Debug.Log("Decrease Player HP by " + damage);
-
-            if (health <= 0)
+            if (myCollider == GetComponent<Collider2D>())
             {
-                Debug.Log("Player Dead");
+                currentHealth -= damage;
+                updateHealth?.Invoke(currentHealth);
+                //healthBar.SetHealth(currentHealth);
+                
+                if (currentHealth <= 0)
+                {
+                    // Debug.Log("Player Dead");
+                    
+                    Die();
+                }
             }
+        }
+    }
 
-            Die();
+    public void IncreaseHealth(int hp)
+    {
+        if (currentHealth < maxHealth)
+        {
+            currentHealth += hp;
+            updateHealth?.Invoke(currentHealth);
+            //healthBar.SetHealth(currentHealth);
         }
     }
 
     private void Die()
     {
-
+        playerDead?.Invoke();
     }
 }
