@@ -9,6 +9,7 @@ public class PlayerPowerUps : MonoBehaviour
     [SerializeField] private GameObject bullet;
 
     private int bulletSpeed;
+    private bool isAttacking;
 
     private float activeShieldTimer;
     private float shieldCooldownTimer;
@@ -33,7 +34,8 @@ public class PlayerPowerUps : MonoBehaviour
     private void OnEnable()
     {
         playerInputActions.Movement.Attack.Enable();
-        playerInputActions.Movement.Attack.performed += FireWaterBullet;
+        playerInputActions.Movement.Attack.performed += IsFiringBullets;
+        playerInputActions.Movement.Attack.canceled += IsFiringBullets;
 
         playerInputActions.Movement.Shield.Enable();
         playerInputActions.Movement.Shield.performed += OnShieldActive;
@@ -46,7 +48,7 @@ public class PlayerPowerUps : MonoBehaviour
 
     private void Start()
     {
-        playerSavedStatus = GetComponent<PlayerSaveSystem>().CurrentPlayerStatus;
+        playerSavedStatus = PlayerSaveSystem.Instance.CurrentPlayerStatus;
 
         attackDelay = 0f;
         shieldCooldownTimer = 0f;
@@ -64,21 +66,38 @@ public class PlayerPowerUps : MonoBehaviour
     {
         attackDelay -= Time.deltaTime;
         shieldCooldownTimer -= Time.deltaTime;
+
+        FireWaterBullet();
     }
 
-    private void FireWaterBullet(InputAction.CallbackContext context)
+    private void IsFiringBullets(InputAction.CallbackContext context)
     {
-        if (attackDelay < 0)
+        if (context.performed)
         {
-            Debug.Log("Fire Bullet");
-            GameObject waterBullet = Instantiate(bullet, firingPosition.position, transform.rotation);
+            isAttacking = true;
+        }
+        else if (context.canceled)
+        {
+            isAttacking = false;
+        }
+    }
 
-            waterBullet.GetComponent<Bullet>().BulletSpeed = bulletSpeed;
-            waterBullet.GetComponent<Bullet>().BulletDamage = attackDamage;
-            waterBullet.GetComponent<Bullet>().TargetTag = "Enemy";
+    private void FireWaterBullet()
+    {
+        if (isAttacking)
+        {
+            if (attackDelay < 0)
+            {
+                Debug.Log("Fire Bullet");
+                GameObject waterBullet = Instantiate(bullet, firingPosition.position, transform.rotation);
+
+                waterBullet.GetComponent<Bullet>().BulletSpeed = bulletSpeed;
+                waterBullet.GetComponent<Bullet>().BulletDamage = attackDamage;
+                waterBullet.GetComponent<Bullet>().TargetTag = "Enemy";
 
 
-            attackDelay = attackSpeed;
+                attackDelay = attackSpeed;
+            }
         }
     }
 
@@ -108,12 +127,22 @@ public class PlayerPowerUps : MonoBehaviour
 
     private void DamagePowerUp()
     {
-        Debug.Log("Damage Power Up");
+        int damageToIncrease = 1;
+
+        attackDamage += damageToIncrease;
+        playerSavedStatus.playerDamage = attackDamage;
+
+        PlayerSaveSystem.Instance.SaveData(playerSavedStatus);
     }
 
     private void SpeedPowerUp()
     {
-        Debug.Log("Speed Power Up");
+        float attackSpeedIncrease = 0.1f;
+
+        attackSpeed -= attackSpeedIncrease;
+        playerSavedStatus.playerAttackSpeed = attackSpeed;
+
+        PlayerSaveSystem.Instance.SaveData(playerSavedStatus);
     }
 
     private void HealthPowerUp()
@@ -128,6 +157,9 @@ public class PlayerPowerUps : MonoBehaviour
         float cooldownReduction = 0.5f;
 
         shieldCooldown -= cooldownReduction;
+        playerSavedStatus.playerShieldCooldown = shieldCooldown;
+        
+        PlayerSaveSystem.Instance.SaveData(playerSavedStatus);
     }
 
 }

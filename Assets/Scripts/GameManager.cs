@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     public void QuitButtonPressed()
     {
-        playerSaveSystem.SaveData();
+        // playerSaveSystem.SaveData();
 
         Application.Quit();
     }

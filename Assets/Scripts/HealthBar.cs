@@ -5,13 +5,19 @@ public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Slider slider;
 
-    public void SetMaxHealth(int hp)
+    private void OnEnable()
+    {
+        Player.setMaxHealth += SetMaxHealth;
+        Player.updateHealth += SetHealth;
+    }
+
+    private void SetMaxHealth(int hp)
     {
         slider.maxValue = hp;
         slider.value = hp;
     }
 
-    public void SetHealth(int hp)
+    private void SetHealth(int hp)
     {
         slider.value = hp;
     }

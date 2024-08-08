@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlayerSaveSystem : MonoBehaviour
 {
+    public static PlayerSaveSystem Instance { get; private set; }
+
     private const string SAVEFILEPATH = "playerData.json";
 
     private int _bulletDamage;
@@ -33,24 +35,37 @@ public class PlayerSaveSystem : MonoBehaviour
         set { _shieldCooldown = value; }
     }
 
-    private readonly PlayerStatus playerStatus = new()
+    private PlayerStatus playerStatus = new()
         {
             playerDamage = 1,
             playerMaxHealth = 10,
-            playerAttackSpeed = 0.3f,
+            playerAttackSpeed = 0.5f,
             playerShieldCooldown = 3f
 
         };
 
     public PlayerStatus CurrentPlayerStatus { get; set; }
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else 
+        {
+            Instance = this;
+        }
+    }
+
     private void Start()
     {
         LoadData();
     }
 
-    public void SaveData()
+    public void SaveData(PlayerStatus newPlayerStatus)
     {
+        playerStatus = newPlayerStatus;
         string json = JsonUtility.ToJson(playerStatus);
         File.WriteAllText(SAVEFILEPATH, json);
     }
@@ -60,7 +75,7 @@ public class PlayerSaveSystem : MonoBehaviour
         FileInfo savedFile = new(SAVEFILEPATH);
         if (!savedFile.Exists || savedFile.Length == 0)
         {
-            SaveData();
+            SaveData(playerStatus);
         }
 
         string json = File.ReadAllText(SAVEFILEPATH);

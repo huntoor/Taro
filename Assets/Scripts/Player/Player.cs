@@ -9,6 +9,12 @@ public class Player : MonoBehaviour
 
     public bool IsInvincible { private get; set; } = false;
 
+    public delegate void SetMaxHealth(int maxHealth);
+    public static SetMaxHealth setMaxHealth;
+
+    public delegate void UpdateHealth(int currentHealth);
+    public static UpdateHealth updateHealth;
+
     private void Awake()
     {
         Bullet.damageTarget += TakeDamage;
@@ -16,10 +22,11 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        maxHealth = GetComponent<PlayerSaveSystem>().CurrentPlayerStatus.playerMaxHealth;
+        maxHealth = PlayerSaveSystem.Instance.CurrentPlayerStatus.playerMaxHealth;
         
         currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
+        setMaxHealth?.Invoke(maxHealth);
+        //healthBar.SetMaxHealth(maxHealth);
     }
 
     private void Respawn()
@@ -34,7 +41,8 @@ public class Player : MonoBehaviour
             if (myCollider == GetComponent<Collider2D>())
             {
                 currentHealth -= damage;
-                healthBar.SetHealth(currentHealth);
+                updateHealth?.Invoke(currentHealth);
+                //healthBar.SetHealth(currentHealth);
                 
                 Debug.Log("Decrease Player HP by " + damage);
 
@@ -53,7 +61,8 @@ public class Player : MonoBehaviour
         if (currentHealth < maxHealth)
         {
             currentHealth += hp;
-            healthBar.SetHealth(currentHealth);
+            updateHealth?.Invoke(currentHealth);
+            //healthBar.SetHealth(currentHealth);
         }
     }
 

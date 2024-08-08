@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class Skill : MonoBehaviour
-{
+{    
     private enum SkillType
     {
         RapidFire,
