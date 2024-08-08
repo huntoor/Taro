@@ -87,9 +87,6 @@ public class PlayerSaveSystem : MonoBehaviour
         AttackSpeed = loadedData.playerAttackSpeed;
         MaxHealth = loadedData.playerMaxHealth;
         ShieldCooldown = loadedData.playerShieldCooldown;
-
-        Debug.Log("D: " + BulletDamage + " A: " + AttackSpeed + "HP: " + MaxHealth);
-
     }
 
 }

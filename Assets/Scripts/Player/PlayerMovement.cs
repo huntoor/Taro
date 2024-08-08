@@ -16,9 +16,22 @@ public class PlayerMovement : MonoBehaviour
 
         playerInputActions = new PlayerInputActions();
 
+    }
+
+    private void OnEnable()
+    {
         playerInputActions.Movement.Enable();
+
         playerInputActions.Movement.Swim.performed += OnSwimInput;
         playerInputActions.Movement.Swim.canceled += OnSwimInput;
+    }
+
+    private void OnDestroy()
+    {
+        playerInputActions.Movement.Swim.performed -= OnSwimInput;
+        playerInputActions.Movement.Swim.canceled -= OnSwimInput;
+
+        playerInputActions.Movement.Disable();
     }
 
     private void Start()

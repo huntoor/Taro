@@ -1,5 +1,3 @@
-using Unity.Play.Publisher.Editor;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -7,6 +5,9 @@ public class Enemy : MonoBehaviour
     [Header("Bullet")]
     [SerializeField] private Transform firingPosition;
     [SerializeField] private GameObject bullet;
+
+    public delegate void OnEnemyDeath();
+    public static OnEnemyDeath onEnemyDeath;
 
     private enum State
     {
@@ -44,7 +45,7 @@ public class Enemy : MonoBehaviour
         Bullet.damageTarget += TakeDamage;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         Bullet.damageTarget -= TakeDamage;
     }
@@ -137,9 +138,17 @@ public class Enemy : MonoBehaviour
 
             if (health <= 0)
             {
-                Debug.Log("Enemy Dead");
-                Destroy(gameObject);
+                Die();
             }
         }
+    }
+
+    private void Die()
+    {
+        Debug.Log("Enemy Dead");
+
+        onEnemyDeath?.Invoke();
+
+        Destroy(gameObject);
     }
 }

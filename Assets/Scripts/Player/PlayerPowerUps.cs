@@ -46,6 +46,21 @@ public class PlayerPowerUps : MonoBehaviour
         PowerUp.shieldCooldownReductionPowerUp += ShieldCooldownReduction;
     }
 
+    private void OnDestroy()
+    {
+        playerInputActions.Movement.Attack.performed -= IsFiringBullets;
+        playerInputActions.Movement.Attack.canceled -= IsFiringBullets;
+        playerInputActions.Movement.Attack.Disable();
+
+        playerInputActions.Movement.Shield.performed -= OnShieldActive;
+        playerInputActions.Movement.Shield.Disable();
+
+        PowerUp.speedPowerUp -= SpeedPowerUp;
+        PowerUp.damagePowerUp -= DamagePowerUp;
+        PowerUp.healthPowerUp -= HealthPowerUp;
+        PowerUp.shieldCooldownReductionPowerUp -= ShieldCooldownReduction;
+    }
+
     private void Start()
     {
         playerSavedStatus = PlayerSaveSystem.Instance.CurrentPlayerStatus;
@@ -58,8 +73,6 @@ public class PlayerPowerUps : MonoBehaviour
         attackSpeed = playerSavedStatus.playerAttackSpeed;
         attackDamage = playerSavedStatus.playerDamage;
         shieldCooldown = playerSavedStatus.playerShieldCooldown;
-
-        Debug.Log(playerSavedStatus.playerMaxHealth);
     }
 
     private void Update()
@@ -88,7 +101,6 @@ public class PlayerPowerUps : MonoBehaviour
         {
             if (attackDelay < 0)
             {
-                Debug.Log("Fire Bullet");
                 GameObject waterBullet = Instantiate(bullet, firingPosition.position, transform.rotation);
 
                 waterBullet.GetComponent<Bullet>().BulletSpeed = bulletSpeed;
@@ -129,20 +141,30 @@ public class PlayerPowerUps : MonoBehaviour
     {
         int damageToIncrease = 1;
 
-        attackDamage += damageToIncrease;
-        playerSavedStatus.playerDamage = attackDamage;
+        int newAttackDamage = attackDamage + damageToIncrease;
 
-        PlayerSaveSystem.Instance.SaveData(playerSavedStatus);
+        if (!(newAttackDamage > 6))
+        {
+            attackDamage = newAttackDamage;
+            playerSavedStatus.playerDamage = attackDamage;
+
+            PlayerSaveSystem.Instance.SaveData(playerSavedStatus);
+        }
     }
 
     private void SpeedPowerUp()
     {
         float attackSpeedIncrease = 0.1f;
 
-        attackSpeed -= attackSpeedIncrease;
-        playerSavedStatus.playerAttackSpeed = attackSpeed;
+        float newAttackSpeed = attackSpeed - attackSpeedIncrease;
 
-        PlayerSaveSystem.Instance.SaveData(playerSavedStatus);
+        if (!(newAttackSpeed < 0.2f))
+        {
+            attackSpeed = newAttackSpeed;
+            playerSavedStatus.playerAttackSpeed = attackSpeed;
+
+            PlayerSaveSystem.Instance.SaveData(playerSavedStatus);
+        }
     }
 
     private void HealthPowerUp()
@@ -156,10 +178,15 @@ public class PlayerPowerUps : MonoBehaviour
     {
         float cooldownReduction = 0.5f;
 
-        shieldCooldown -= cooldownReduction;
-        playerSavedStatus.playerShieldCooldown = shieldCooldown;
-        
-        PlayerSaveSystem.Instance.SaveData(playerSavedStatus);
+        float newShiedlCooldown = shieldCooldown - cooldownReduction;
+
+        if (!(newShiedlCooldown < 0.5f))
+        {
+            shieldCooldown -= cooldownReduction;
+            playerSavedStatus.playerShieldCooldown = shieldCooldown;
+            
+            PlayerSaveSystem.Instance.SaveData(playerSavedStatus);
+        }
     }
 
 }

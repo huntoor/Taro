@@ -11,10 +11,16 @@ public class PlayerSkills : MonoBehaviour
     
     private void OnEnable()
     {
-        
         Skill.blastSkill += BlastSkill;
         Skill.rapidFireSkill += RapidFireSkill;
         Skill.laserSkill += LaserSkill;
+    }
+
+    private void OnDestroy()
+    {
+        Skill.blastSkill -= BlastSkill;
+        Skill.rapidFireSkill -= RapidFireSkill;
+        Skill.laserSkill -= LaserSkill;
     }
 
     private void RapidFireSkill()

@@ -26,9 +26,38 @@ public class ParallexBackground : MonoBehaviour
 
     private void LateUpdate()
     {
+        MoveBG();
+    }
+
+    private void MoveBGWithCamera()
+    {
         Vector3 deltaMovement = cameraTransform.position - lastCameraPosition;
         transform.position -= new Vector3(deltaMovement.x * parallexEffectMultiplier.x, deltaMovement.y * parallexEffectMultiplier.y);
+
         lastCameraPosition = cameraTransform.position;
+
+        if (infiniteHorizontal)
+        {
+            if (Mathf.Abs(cameraTransform.position.x - transform.position.x) >= textureUnitySizeX)
+            {
+                float offsetPositionX = (cameraTransform.position.x - transform.position.x) % textureUnitySizeX;
+                transform.position = new Vector3(cameraTransform.position.x + offsetPositionX, transform.position.y);
+            }
+        }
+
+        if (infiniteVertical)
+        {
+            if (Mathf.Abs(cameraTransform.position.y - transform.position.y) >= textureUnitySizeY)
+            {
+                float offsetPositionY = (cameraTransform.position.y - transform.position.y) % textureUnitySizeY;
+                transform.position = new Vector3(cameraTransform.position.x, transform.position.y + offsetPositionY);
+            }
+        }
+    }
+
+    private void MoveBG(float xSpeed = 0.1f, float ySpeed = 0)
+    {
+        transform.position -= new Vector3(xSpeed * parallexEffectMultiplier.x, ySpeed * parallexEffectMultiplier.y);
 
         if (infiniteHorizontal)
         {

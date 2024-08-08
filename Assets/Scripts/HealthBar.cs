@@ -11,6 +11,12 @@ public class HealthBar : MonoBehaviour
         Player.updateHealth += SetHealth;
     }
 
+    private void OnDestroy()
+    {
+        Player.setMaxHealth -= SetMaxHealth;
+        Player.updateHealth -= SetHealth;
+    }
+
     private void SetMaxHealth(int hp)
     {
         slider.maxValue = hp;

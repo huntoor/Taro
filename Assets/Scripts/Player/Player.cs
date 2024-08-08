@@ -15,9 +15,17 @@ public class Player : MonoBehaviour
     public delegate void UpdateHealth(int currentHealth);
     public static UpdateHealth updateHealth;
 
-    private void Awake()
+    public delegate void PlayerDead();
+    public static PlayerDead playerDead;
+
+    private void OnEnable()
     {
         Bullet.damageTarget += TakeDamage;
+    }
+
+    private void OnDestroy()
+    {
+        Bullet.damageTarget -= TakeDamage;
     }
 
     private void Start()
@@ -44,14 +52,12 @@ public class Player : MonoBehaviour
                 updateHealth?.Invoke(currentHealth);
                 //healthBar.SetHealth(currentHealth);
                 
-                Debug.Log("Decrease Player HP by " + damage);
-
                 if (currentHealth <= 0)
                 {
-                    Debug.Log("Player Dead");
+                    // Debug.Log("Player Dead");
+                    
+                    Die();
                 }
-
-                Die();
             }
         }
     }
@@ -68,6 +74,6 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
-
+        playerDead?.Invoke();
     }
 }
