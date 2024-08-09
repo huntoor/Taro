@@ -27,6 +27,9 @@ public class ExplosiveBullet : MonoBehaviour
 
     private void Explode()
     {
+        float cameraShakeIntenisty = 3f;
+        float cameraShakeTimer = 0.6f;
+        CameraShake.Instance.ShakeCamera(cameraShakeIntenisty, cameraShakeTimer);
         explosionParticle.Play();
 
         affectedColliders = Physics2D.OverlapCircleAll(transform.position, radius, layerMask);
