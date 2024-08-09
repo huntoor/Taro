@@ -97,14 +97,14 @@ public class Enemy : MonoBehaviour
 
     private void IdleState()
     {
-        this.GetComponent<SpriteRenderer>().enabled = false;
-        this.GetComponent<BoxCollider2D>().enabled = false;
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<BoxCollider2D>().enabled = false;
     }
 
     private void AttackState()
     {
-        this.GetComponent<SpriteRenderer>().enabled = true;
-        this.GetComponent<BoxCollider2D>().enabled = true;
+        GetComponent<SpriteRenderer>().enabled = true;
+        GetComponent<BoxCollider2D>().enabled = true;
     }
 
     private void Shoot()
@@ -145,8 +145,6 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("Enemy Dead");
-
         onEnemyDeath?.Invoke();
 
         Destroy(gameObject);

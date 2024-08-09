@@ -70,7 +70,7 @@ public class Bullet : MonoBehaviour
         {
             damageTarget?.Invoke(BulletDamage, body);
             
-            Destroy(gameObject);
+            Destroy(gameObject, 0.05f);
         }
     }
 }

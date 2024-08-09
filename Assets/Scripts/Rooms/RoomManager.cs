@@ -75,10 +75,10 @@ public class RoomManager : MonoBehaviour
 
     private void EnemyDied()
     {
-        if (IsRoomUnlocked)
+        if (IsRoomUnlocked && numberOfEnemiesInRoom > 0)
         {
-            numberOfEnemiesInRoom -= 1;
-            Debug.Log(numberOfEnemiesInRoom);
+            numberOfEnemiesInRoom = GetComponentsInChildren<Enemy>().Length - 1;
+            Debug.Log(gameObject.name + ": " + numberOfEnemiesInRoom);
             if (numberOfEnemiesInRoom <= 0)
             {
                 UnlockNextRoom();
