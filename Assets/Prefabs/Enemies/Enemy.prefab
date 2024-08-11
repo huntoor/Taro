@@ -82,6 +82,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firingPosition: {fileID: 1298918346125668022}
   bullet: {fileID: 511814651299893395, guid: 9dfcb4da426a86c448d0a76fef3ff423, type: 3}
+  health: 3
+  bulletSpeed: 20
+  bulletDamage: 1
+  attackSpeed: 1.5
 --- !u!212 &7791872032623579940
 SpriteRenderer:
   m_ObjectHideFlags: 0

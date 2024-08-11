@@ -20,12 +20,12 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        Bullet.damageTarget += TakeDamage;
+        BaseBullet.damageTarget += TakeDamage;
     }
 
     private void OnDestroy()
     {
-        Bullet.damageTarget -= TakeDamage;
+        BaseBullet.damageTarget -= TakeDamage;
     }
 
     private void Start()

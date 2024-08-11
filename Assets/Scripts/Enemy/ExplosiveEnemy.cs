@@ -1,18 +1,12 @@
 using UnityEngine;
 
-public class Enemy : BaseEnemy
+public class ExplosiveEnemy : BaseEnemy
 {
     private void Start()
     {
         CurrentState = State.Idle;
 
         player = null;
-
-        // bulletSpeed = 20;
-        // bulletDamage = 1;
-        // attackDelay = 1.5f;
-
-        // health = 3;
     }
 
     private void Update()
@@ -49,11 +43,10 @@ public class Enemy : BaseEnemy
         {
             GameObject bullet = Instantiate(this.bullet, firingPosition.position, transform.rotation);
 
-            bullet.GetComponent<Bullet>().BulletSpeed = bulletSpeed;
-            bullet.GetComponent<Bullet>().BulletDamage = bulletDamage;
-            bullet.GetComponent<Bullet>().TargetTag = "Player";
-            bullet.GetComponent<Bullet>().Player = player;
-
+            bullet.GetComponent<ExplosiveBullet>().BulletSpeed = bulletSpeed;
+            bullet.GetComponent<ExplosiveBullet>().BulletDamage = bulletDamage;
+            bullet.GetComponent<ExplosiveBullet>().TargetTag = "Player";
+            bullet.GetComponent<ExplosiveBullet>().Player = player;
 
             attackDelay = attackSpeed;
         }

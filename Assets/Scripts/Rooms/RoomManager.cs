@@ -34,18 +34,18 @@ public class RoomManager : MonoBehaviour
         }
         myTransitionCamera = GetComponent<RoomTransition>();
 
-        numberOfEnemiesInRoom = GetComponentsInChildren<Enemy>().Length;
+        numberOfEnemiesInRoom = GetComponentsInChildren<BaseEnemy>().Length;
         
     }
 
     private void OnEnable()
     {
-        Enemy.onEnemyDeath += EnemyDied;
+        BaseEnemy.onEnemyDeath += EnemyDied;
     }
 
     private void OnDestroy()
     {
-        Enemy.onEnemyDeath -= EnemyDied;
+        BaseEnemy.onEnemyDeath -= EnemyDied;
     }
 
     private void UnlockNextRoom()
@@ -77,7 +77,7 @@ public class RoomManager : MonoBehaviour
     {
         if (IsRoomUnlocked && numberOfEnemiesInRoom > 0)
         {
-            numberOfEnemiesInRoom = GetComponentsInChildren<Enemy>().Length - 1;
+            numberOfEnemiesInRoom = GetComponentsInChildren<BaseEnemy>().Length - 1;
             Debug.Log(gameObject.name + ": " + numberOfEnemiesInRoom);
             if (numberOfEnemiesInRoom <= 0)
             {
