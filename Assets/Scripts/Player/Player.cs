@@ -18,6 +18,9 @@ public class Player : MonoBehaviour
     public delegate void PlayerDead();
     public static PlayerDead playerDead;
 
+    public delegate void GetHit();
+    public static GetHit getHit;
+
     private void OnEnable()
     {
         BaseBullet.damageTarget += TakeDamage;
@@ -31,7 +34,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         maxHealth = PlayerSaveSystem.Instance.CurrentPlayerStatus.playerMaxHealth;
-        
+
         currentHealth = maxHealth;
         setMaxHealth?.Invoke(maxHealth);
         //healthBar.SetMaxHealth(maxHealth);
@@ -41,7 +44,7 @@ public class Player : MonoBehaviour
     {
 
     }
-    
+
     private void TakeDamage(int damage, Collider2D myCollider)
     {
         if (!IsInvincible)
@@ -50,12 +53,13 @@ public class Player : MonoBehaviour
             {
                 currentHealth -= damage;
                 updateHealth?.Invoke(currentHealth);
-                //healthBar.SetHealth(currentHealth);
-                
+
+                getHit?.Invoke();
+
                 if (currentHealth <= 0)
                 {
                     // Debug.Log("Player Dead");
-                    
+
                     Die();
                 }
             }

@@ -89,7 +89,7 @@ public class ExplosiveBullet : BaseBullet
     
     private void OnTriggerEnter2D(Collider2D body)
     {
-        Debug.Log(TargetTag);
+//        Debug.Log(TargetTag);
         if (body.CompareTag(TargetTag))
         {
             Explode();

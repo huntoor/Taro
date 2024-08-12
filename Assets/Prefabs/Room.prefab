@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7764857720556062890
 Transform:
   m_ObjectHideFlags: 0
@@ -301,7 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextRoom: {fileID: 0}
-  isFirstRoom: 0
+  isFirstRoom: 1
   isLastRoom: 0
 --- !u!60 &2403809853679949838
 PolygonCollider2D:
