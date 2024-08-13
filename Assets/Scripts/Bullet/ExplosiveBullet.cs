@@ -3,16 +3,36 @@ using UnityEngine;
 public class ExplosiveBullet : BaseBullet
 {
     [SerializeField] private ParticleSystem explosionParticle;
-    [SerializeField] private float radius = 2;
+    [SerializeField] private float explosiveRadius = 2;
     [SerializeField] private float force = 20;
 
-    [SerializeField] private LayerMask layerMask;
+    private CircleCollider2D myCollider;
     private Collider2D[] affectedColliders;
 
+
+    public LayerMask TargetMask { get; set; }
+
+    private bool _isExploded;
+    private bool IsExploded
+    {
+        get { return _isExploded; }
+        set
+        {
+            if (_isExploded != value)
+            {
+                _isExploded = value;
+
+                GetComponent<SpriteRenderer>().enabled = !_isExploded;
+            }
+        }
+    }
+
+    private float bulletChaseTimer;
 
     private void Awake()
     {
         myRigidBody = GetComponent<Rigidbody2D>();
+        myCollider = GetComponent<CircleCollider2D>();
 
         explosionParticle.Stop();
     }
@@ -20,16 +40,19 @@ public class ExplosiveBullet : BaseBullet
     private void Start()
     {
         bulletLifeSpan = 3f;
+        bulletChaseTimer = 1f;
+        IsExploded = false;
 
         if (TargetTag == "Player" && Player != null)
         {
             playerDirection = Player.transform.position - transform.position;
         }
     }
-    
+
     private void FixedUpdate()
     {
         bulletLifeSpan -= Time.deltaTime;
+        bulletChaseTimer -= Time.deltaTime;
 
         if (bulletLifeSpan < 0)
         {
@@ -53,9 +76,12 @@ public class ExplosiveBullet : BaseBullet
         float cameraShakeIntenisty = 3f;
         float cameraShakeTimer = 0.6f;
         CameraShake.Instance.ShakeCamera(cameraShakeIntenisty, cameraShakeTimer);
+
         explosionParticle.Play();
 
-        affectedColliders = Physics2D.OverlapCircleAll(transform.position, radius, layerMask);
+        IsExploded = true;
+
+        affectedColliders = Physics2D.OverlapCircleAll(transform.position, explosiveRadius, TargetMask);
 
         foreach (Collider2D affectedCollider in affectedColliders)
         {
@@ -69,30 +95,41 @@ public class ExplosiveBullet : BaseBullet
             }
         }
     }
+
     protected override void MoveBullet()
     {
-        if (TargetTag == "Player" && Player != null)
+        if (!IsExploded)
         {
-            playerDirection = Player.transform.position - transform.position;
+            if (TargetTag == "Player" && Player != null)
+            {
+                if (bulletChaseTimer > 0)
+                {
+                    playerDirection = Player.transform.position - transform.position;
+                }
 
-            myRigidBody.velocity = new Vector2(playerDirection.x, playerDirection.y).normalized * BulletSpeed;
+                myRigidBody.velocity = new Vector2(playerDirection.x, playerDirection.y).normalized * BulletSpeed;
 
-            float rotation = Mathf.Atan2(playerDirection.y, playerDirection.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, 0, rotation);
+                float rotation = Mathf.Atan2(playerDirection.y, playerDirection.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(0, 0, rotation);
+
+                if (IsBulletCollision())
+                {
+                    Explode();
+                }
+            }
+            else
+            {
+                myRigidBody.velocity = new Vector2(BulletSpeed, 0);
+            }
         }
         else
         {
-            myRigidBody.velocity = new Vector2(BulletSpeed, 0);
+            myRigidBody.velocity = Vector2.zero;
         }
     }
 
-    
-    private void OnTriggerEnter2D(Collider2D body)
+    private bool IsBulletCollision()
     {
-//        Debug.Log(TargetTag);
-        if (body.CompareTag(TargetTag))
-        {
-            Explode();
-        }
+        return Physics2D.OverlapCircle(transform.position, myCollider.radius, TargetMask) != null;
     }
 }

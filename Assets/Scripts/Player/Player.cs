@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -49,7 +50,7 @@ public class Player : MonoBehaviour
     {
         if (!IsInvincible)
         {
-            if (myCollider == GetComponent<Collider2D>())
+            if (myCollider.CompareTag(this.tag))
             {
                 currentHealth -= damage;
                 updateHealth?.Invoke(currentHealth);

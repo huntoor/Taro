@@ -81,9 +81,12 @@ public abstract class BaseEnemy : MonoBehaviour
 
     public void OnPlayerEneted(Collider2D player)
     {
-        this.player = player.gameObject;
+        if (player.CompareTag("Player"))
+        {
+            this.player = player.gameObject;
 
-        CurrentState = State.Attack;
+            CurrentState = State.Attack;
+        }
     }
 
     private void TakeDamage(int damageToTake, Collider2D myCollider)

@@ -41,12 +41,14 @@ public class ExplosiveEnemy : BaseEnemy
     {
         if (attackDelay < 0)
         {
-            GameObject bullet = Instantiate(this.bullet, firingPosition.position, transform.rotation);
-
-            bullet.GetComponent<ExplosiveBullet>().BulletSpeed = bulletSpeed;
-            bullet.GetComponent<ExplosiveBullet>().BulletDamage = bulletDamage;
-            bullet.GetComponent<ExplosiveBullet>().TargetTag = "Player";
-            bullet.GetComponent<ExplosiveBullet>().Player = player;
+            GameObject bulletInstance = Instantiate(this.bullet, firingPosition.position, transform.rotation);
+            ExplosiveBullet bullet = bulletInstance.GetComponent<ExplosiveBullet>();
+            
+            bullet.BulletSpeed = bulletSpeed;
+            bullet.BulletDamage = bulletDamage;
+            bullet.TargetTag = "Player";
+            bullet.Player = player;
+            bullet.TargetMask = 1 << player.layer;
 
             attackDelay = attackSpeed;
         }
