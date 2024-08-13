@@ -62,15 +62,6 @@ public class ExplosiveBullet : BaseBullet
         MoveBullet();
     }
 
-    // for testing
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Explode();
-        }
-    }
-
     private void Explode()
     {
         float cameraShakeIntenisty = 3f;

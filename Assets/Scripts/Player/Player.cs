@@ -59,8 +59,6 @@ public class Player : MonoBehaviour
 
                 if (currentHealth <= 0)
                 {
-                    // Debug.Log("Player Dead");
-
                     Die();
                 }
             }
@@ -73,7 +71,6 @@ public class Player : MonoBehaviour
         {
             currentHealth += hp;
             updateHealth?.Invoke(currentHealth);
-            //healthBar.SetHealth(currentHealth);
         }
     }
 

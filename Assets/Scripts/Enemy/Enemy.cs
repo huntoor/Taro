@@ -7,12 +7,6 @@ public class Enemy : BaseEnemy
         CurrentState = State.Idle;
 
         player = null;
-
-        // bulletSpeed = 20;
-        // bulletDamage = 1;
-        // attackDelay = 1.5f;
-
-        // health = 3;
     }
 
     private void Update()
