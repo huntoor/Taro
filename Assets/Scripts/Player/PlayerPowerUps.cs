@@ -26,6 +26,12 @@ public class PlayerPowerUps : MonoBehaviour
 
     private PlayerInputActions playerInputActions;
 
+    public delegate void IsShieldAvilable(bool shield);
+    public static IsShieldAvilable isShieldAvilable;
+
+    public delegate void IsInShield(bool shield);
+    public static IsInShield isInShield;
+
     private void Awake()
     {
         playerInputActions = new PlayerInputActions();
@@ -78,7 +84,6 @@ public class PlayerPowerUps : MonoBehaviour
     private void Update()
     {
         attackDelay -= Time.deltaTime;
-        shieldCooldownTimer -= Time.deltaTime;
 
         FireWaterBullet();
     }
@@ -115,7 +120,10 @@ public class PlayerPowerUps : MonoBehaviour
 
     private void OnShieldActive(InputAction.CallbackContext context)
     {
-        StartCoroutine(nameof(ActivateShield));
+        if (shieldCooldownTimer <= 0)
+        {
+            StartCoroutine(ActivateShield());
+        }
     }
 
     private IEnumerator ActivateShield()
@@ -123,17 +131,31 @@ public class PlayerPowerUps : MonoBehaviour
         if (shieldCooldownTimer <= 0)
         {
             Debug.Log("activate Shield");
+
             GetComponent<Player>().IsInvincible = true;
+            
+            isInShield?.Invoke(true);
             Color oldColor = GetComponent<SpriteRenderer>().color;
-            GetComponent<SpriteRenderer>().color = Color.white;
+            GetComponent<SpriteRenderer>().color = new Color(255,99,71);
 
             yield return new WaitForSeconds(activeShieldTimer);
 
             Debug.Log("Deactivate Shield");
-            GetComponent<SpriteRenderer>().color = oldColor;
             GetComponent<Player>().IsInvincible = false;
+
+            isInShield?.Invoke(false);
+            GetComponent<SpriteRenderer>().color = oldColor;
             
             shieldCooldownTimer = shieldCooldown;
+            isShieldAvilable?.Invoke(false);
+
+            while (shieldCooldownTimer > 0)
+            {
+                yield return null;
+                shieldCooldownTimer -= Time.deltaTime;
+            }
+
+            isShieldAvilable?.Invoke(true);
         }
     }
 

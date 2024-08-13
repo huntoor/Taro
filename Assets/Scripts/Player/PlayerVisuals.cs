@@ -12,19 +12,29 @@ public class PlayerVisuals : MonoBehaviour
     private void OnEnable()
     {
         Player.getHit += PlayHitAnimation;
+        PlayerPowerUps.isInShield += PlayShieldAnimation;
     }
 
     private void OnDestroy()
     {
         Player.getHit -= PlayHitAnimation;
+        PlayerPowerUps.isInShield -= PlayShieldAnimation;
     }
 
     private void PlayHitAnimation()
     {
-        float cameraShakeIntenisty = 1f;
-        float cameraShakeTimer = 0.1f;
-        CameraShake.Instance.ShakeCamera(cameraShakeIntenisty, cameraShakeTimer);
-
         myAnimator.SetTrigger("OnHit");
+    }
+
+    private void PlayShieldAnimation(bool isInShield)
+    {
+        if (isInShield)
+        {
+            myAnimator.SetTrigger("IsInShield");
+        }
+        else
+        {
+            myAnimator.SetTrigger("IsOutShield");
+        }
     }
 }

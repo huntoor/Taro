@@ -48,6 +48,10 @@ public class Bullet : BaseBullet
     {
         if (body.CompareTag(TargetTag))
         {
+            // float cameraShakeIntenisty = 1f;
+            // float cameraShakeTimer = 0.1f;
+            // CameraShake.Instance.ShakeCamera(cameraShakeIntenisty, cameraShakeTimer);
+
             damageTarget?.Invoke(BulletDamage, body);
 
             Destroy(gameObject);
