@@ -1,12 +1,30 @@
+using System;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class ExplosiveEnemy : BaseEnemy
 {
+    [SerializeField] private float enemySpeed;
+
+    private Rigidbody2D myRigidBody;
+
+    private int movementDirection;
+    private float halfEnemySizeY;
+
+    private void Awake()
+    {
+        myRigidBody = GetComponent<Rigidbody2D>();
+    }
+
     private void Start()
     {
         CurrentState = State.Idle;
 
         player = null;
+        movementDirection = 1;
+
+        halfEnemySizeY = GetComponent<SpriteRenderer>().bounds.size.y / 2;
+
     }
 
     private void Update()
@@ -20,6 +38,8 @@ public class ExplosiveEnemy : BaseEnemy
         {
             if (player != null)
             {
+                EnemyMovement();
+
                 Shoot();
             }
         }
@@ -51,6 +71,59 @@ public class ExplosiveEnemy : BaseEnemy
             bullet.TargetMask = 1 << player.layer;
 
             attackDelay = attackSpeed;
+        }
+    }
+
+    private void EnemyMovement()
+    {
+        Vector3 enemyPos = transform.position;
+        
+        SwitchDirection(enemyPos);
+
+        myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, movementDirection * enemySpeed);
+    }
+
+    private void SwitchDirection(Vector3 pos)
+    {
+        float distance = pos.z - Camera.main.transform.position.z;
+
+        float topBorder = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, distance)).y + halfEnemySizeY;
+        float bottomBorder = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, distance)).y - halfEnemySizeY;
+
+        if (pos.y >= topBorder && pos.y >= bottomBorder) // Moving Down
+        {
+            movementDirection = -1;
+        }
+        else if (pos.y <= bottomBorder && pos.y <= topBorder) // Moving Up
+        {
+            movementDirection = 1;
+        }
+
+        CheckCollision();
+    }
+
+    private void CheckCollision()
+    {
+        float extraStartingHight = 2f;
+        float rayDistance = 0.15f;
+
+        if (movementDirection == 1)
+        {
+            if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + extraStartingHight), Vector2.up, rayDistance).collider != null)
+            {
+                Debug.Log(Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + extraStartingHight), Vector2.up, rayDistance).collider.name);
+                movementDirection = -1;
+            }
+            Debug.DrawRay(new Vector2(transform.position.x, transform.position.y - extraStartingHight), Vector2.up, Color.red);
+        }
+        else if (movementDirection == -1)
+        {
+            if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - extraStartingHight), Vector2.down, rayDistance).collider != null)
+            {
+                Debug.Log(Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - extraStartingHight), Vector2.down, rayDistance).collider.name);
+                movementDirection = -1; 
+            }
+            Debug.DrawRay(new Vector2(transform.position.x, transform.position.y + extraStartingHight), Vector2.down, Color.red);
         }
     }
 }

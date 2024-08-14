@@ -92,6 +92,10 @@ PrefabInstance:
       propertyPath: OnDetectionZoneEntered.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: BaseEnemy, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 9053253402253382829, guid: 311beb52433cb7d479fb50c0a56e152e, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2347006131467669287, guid: 311beb52433cb7d479fb50c0a56e152e, type: 3}
     m_RemovedGameObjects: []
@@ -129,3 +133,4 @@ MonoBehaviour:
   bulletSpeed: 15
   bulletDamage: 2
   attackSpeed: 1.5
+  enemySpeed: 6
