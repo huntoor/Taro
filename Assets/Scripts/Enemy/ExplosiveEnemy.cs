@@ -90,11 +90,11 @@ public class ExplosiveEnemy : BaseEnemy
         float topBorder = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, distance)).y + halfEnemySizeY;
         float bottomBorder = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, distance)).y - halfEnemySizeY;
 
-        if (pos.y >= topBorder && pos.y >= bottomBorder) // Moving Down
+        if (pos.y >= topBorder && pos.y >= bottomBorder)
         {
             movementDirection = -1;
         }
-        else if (pos.y <= bottomBorder && pos.y <= topBorder) // Moving Up
+        else if (pos.y <= bottomBorder && pos.y <= topBorder)
         {
             movementDirection = 1;
         }
@@ -111,19 +111,15 @@ public class ExplosiveEnemy : BaseEnemy
         {
             if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + extraStartingHight), Vector2.up, rayDistance).collider != null)
             {
-                Debug.Log(Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + extraStartingHight), Vector2.up, rayDistance).collider.name);
                 movementDirection = -1;
             }
-            Debug.DrawRay(new Vector2(transform.position.x, transform.position.y - extraStartingHight), Vector2.up, Color.red);
         }
         else if (movementDirection == -1)
         {
             if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - extraStartingHight), Vector2.down, rayDistance).collider != null)
             {
-                Debug.Log(Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - extraStartingHight), Vector2.down, rayDistance).collider.name);
                 movementDirection = -1; 
             }
-            Debug.DrawRay(new Vector2(transform.position.x, transform.position.y + extraStartingHight), Vector2.down, Color.red);
         }
     }
 }
