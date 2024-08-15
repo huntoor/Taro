@@ -1,5 +1,3 @@
-using System;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class ExplosiveEnemy : BaseEnemy
@@ -66,6 +64,7 @@ public class ExplosiveEnemy : BaseEnemy
             
             bullet.BulletSpeed = bulletSpeed;
             bullet.BulletDamage = bulletDamage;
+            bullet.BulletChaseTimer = bulletChaseTimer;
             bullet.TargetTag = "Player";
             bullet.Player = player;
             bullet.TargetMask = 1 << player.layer;
@@ -118,7 +117,7 @@ public class ExplosiveEnemy : BaseEnemy
         {
             if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - extraStartingHight), Vector2.down, rayDistance).collider != null)
             {
-                movementDirection = -1; 
+                movementDirection = 1; 
             }
         }
     }

@@ -13,6 +13,7 @@ public abstract class BaseEnemy : MonoBehaviour
     [SerializeField] protected int bulletSpeed;
     [SerializeField] protected int bulletDamage;
     [SerializeField] protected float attackSpeed;
+    [SerializeField] protected float bulletChaseTimer;
 
     protected float attackDelay;
     public delegate void OnEnemyDeath();

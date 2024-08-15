@@ -41,12 +41,13 @@ public class Enemy : BaseEnemy
     {
         if (attackDelay < 0)
         {
-            GameObject bullet = Instantiate(this.bullet, firingPosition.position, transform.rotation);
+            GameObject bulletInstance = Instantiate(this.bullet, firingPosition.position, transform.rotation);
+            Bullet bullet = bulletInstance.GetComponent<Bullet>();
 
-            bullet.GetComponent<Bullet>().BulletSpeed = bulletSpeed;
-            bullet.GetComponent<Bullet>().BulletDamage = bulletDamage;
-            bullet.GetComponent<Bullet>().TargetTag = "Player";
-            bullet.GetComponent<Bullet>().Player = player;
+            bullet.BulletSpeed = bulletSpeed;
+            bullet.BulletDamage = bulletDamage;
+            bullet.TargetTag = "Player";
+            bullet.Player = player;
 
 
             attackDelay = attackSpeed;

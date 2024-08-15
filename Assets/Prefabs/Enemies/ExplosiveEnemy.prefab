@@ -133,4 +133,5 @@ MonoBehaviour:
   bulletSpeed: 15
   bulletDamage: 2
   attackSpeed: 1.5
+  bulletChaseTimer: 1
   enemySpeed: 6

@@ -170,7 +170,8 @@ public class PlayerPowerUps : MonoBehaviour
             attackDamage = newAttackDamage;
             playerSavedStatus.playerDamage = attackDamage;
 
-            PlayerSaveSystem.Instance.SaveData(playerSavedStatus);
+            GameManager.Instance.SetPlayerData(playerSavedStatus);
+            // PlayerSaveSystem.Instance.SaveData(playerSavedStatus);
         }
     }
 
@@ -185,7 +186,8 @@ public class PlayerPowerUps : MonoBehaviour
             attackSpeed = newAttackSpeed;
             playerSavedStatus.playerAttackSpeed = attackSpeed;
 
-            PlayerSaveSystem.Instance.SaveData(playerSavedStatus);
+            GameManager.Instance.SetPlayerData(playerSavedStatus);
+            // PlayerSaveSystem.Instance.SaveData(playerSavedStatus);
         }
     }
 
@@ -206,8 +208,9 @@ public class PlayerPowerUps : MonoBehaviour
         {
             shieldCooldown -= cooldownReduction;
             playerSavedStatus.playerShieldCooldown = shieldCooldown;
-            
-            PlayerSaveSystem.Instance.SaveData(playerSavedStatus);
+
+            GameManager.Instance.SetPlayerData(playerSavedStatus);            
+            // PlayerSaveSystem.Instance.SaveData(playerSavedStatus);
         }
     }
 

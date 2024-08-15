@@ -50,13 +50,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firingPosition: {fileID: 8934365199105034999}
-  bullet:
+  bullets:
   - {fileID: 511814651299893395, guid: 9dfcb4da426a86c448d0a76fef3ff423, type: 3}
   - {fileID: 2043060288120242573, guid: b9f1bcff5e6d4d04ba72c0176b898dbc, type: 3}
   health: 20
-  bulletSpeed: 30
+  bulletSpeed: 27
   bulletDamage: 4
   attackSpeed: 0.8
+  bulletChaseTimer: 0.5
 --- !u!212 &3553632022876281335
 SpriteRenderer:
   m_ObjectHideFlags: 0

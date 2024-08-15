@@ -4,7 +4,7 @@ public abstract class BaseBoss : MonoBehaviour
 {
     [Header("Bullet")]
     [SerializeField] protected Transform firingPosition;
-    [SerializeField] protected GameObject[] bullet;
+    [SerializeField] protected GameObject[] bullets;
 
     [Space]
 
@@ -13,6 +13,7 @@ public abstract class BaseBoss : MonoBehaviour
     [SerializeField] protected int bulletSpeed;
     [SerializeField] protected int bulletDamage;
     [SerializeField] protected float attackSpeed;
+    [SerializeField] protected float bulletChaseTimer;
 
     protected float attackDelay;
 
@@ -83,6 +84,7 @@ public abstract class BaseBoss : MonoBehaviour
     {
         if (myCollider == GetComponent<Collider2D>())
         {
+            Debug.Log("Boss Hit");
             health -= damageToTake;
 
             if (health <= 0)

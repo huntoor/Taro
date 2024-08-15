@@ -12,6 +12,8 @@ public class ExplosiveBullet : BaseBullet
 
     public LayerMask TargetMask { get; set; }
 
+    public float BulletChaseTimer { get; set; }
+
     private bool _isExploded;
     private bool IsExploded
     {
@@ -27,8 +29,6 @@ public class ExplosiveBullet : BaseBullet
         }
     }
 
-    private float bulletChaseTimer;
-
     private void Awake()
     {
         myRigidBody = GetComponent<Rigidbody2D>();
@@ -40,7 +40,7 @@ public class ExplosiveBullet : BaseBullet
     private void Start()
     {
         bulletLifeSpan = 3f;
-        bulletChaseTimer = 1f;
+
         IsExploded = false;
 
         if (TargetTag == "Player" && Player != null)
@@ -51,10 +51,17 @@ public class ExplosiveBullet : BaseBullet
 
     private void FixedUpdate()
     {
-        bulletLifeSpan -= Time.deltaTime;
-        bulletChaseTimer -= Time.deltaTime;
+        if (bulletLifeSpan >= 0)
+        {
+            bulletLifeSpan -= Time.deltaTime;
+        }
 
-        if (bulletLifeSpan < 0)
+        if (BulletChaseTimer >= 0)
+        {
+            BulletChaseTimer -= Time.deltaTime;
+        }
+
+        if (bulletLifeSpan <= 0)
         {
             Destroy(gameObject);
         }
@@ -93,7 +100,7 @@ public class ExplosiveBullet : BaseBullet
         {
             if (TargetTag == "Player" && Player != null)
             {
-                if (bulletChaseTimer > 0)
+                if (BulletChaseTimer > 0)
                 {
                     playerDirection = Player.transform.position - transform.position;
                 }
