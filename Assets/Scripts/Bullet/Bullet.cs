@@ -1,27 +1,7 @@
-using System;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : BaseBullet
 {
-    private Rigidbody2D myRigidBody;
-
-    private float bulletLifeSpan;
-
-    private Vector2 playerDirection;
-
-    public float BulletSpeed { get; set; }
-
-    public string TargetTag { get; set; }
-
-    public int BulletDamage { get; set; }
-
-    public bool IsPlayerTarget { get; set; }
-    public GameObject Player { get; set;}
-    
-
-    public delegate void DamageTarget(int damage, Collider2D body);
-    public static DamageTarget damageTarget;
-
     private void Awake()
     {
         myRigidBody = GetComponent<Rigidbody2D>();
@@ -33,7 +13,7 @@ public class Bullet : MonoBehaviour
 
         if (TargetTag == "Player" && Player != null)
         {
-            playerDirection = Player.transform.position - transform.position;   
+            playerDirection = Player.transform.position - transform.position;
         }
     }
 
@@ -49,14 +29,14 @@ public class Bullet : MonoBehaviour
         MoveBullet();
     }
 
-    private void MoveBullet()
+    protected override void MoveBullet()
     {
         if (TargetTag == "Player" && Player != null)
         {
             myRigidBody.velocity = new Vector2(playerDirection.x, playerDirection.y).normalized * BulletSpeed;
 
             float rotation = Mathf.Atan2(playerDirection.y, playerDirection.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0,0, rotation);
+            transform.rotation = Quaternion.Euler(0, 0, rotation);
         }
         else
         {
@@ -69,7 +49,7 @@ public class Bullet : MonoBehaviour
         if (body.CompareTag(TargetTag))
         {
             damageTarget?.Invoke(BulletDamage, body);
-            
+
             Destroy(gameObject);
         }
     }

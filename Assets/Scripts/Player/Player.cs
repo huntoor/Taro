@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -18,20 +19,23 @@ public class Player : MonoBehaviour
     public delegate void PlayerDead();
     public static PlayerDead playerDead;
 
+    public delegate void GetHit();
+    public static GetHit getHit;
+
     private void OnEnable()
     {
-        Bullet.damageTarget += TakeDamage;
+        BaseBullet.damageTarget += TakeDamage;
     }
 
     private void OnDestroy()
     {
-        Bullet.damageTarget -= TakeDamage;
+        BaseBullet.damageTarget -= TakeDamage;
     }
 
     private void Start()
     {
         maxHealth = PlayerSaveSystem.Instance.CurrentPlayerStatus.playerMaxHealth;
-        
+
         currentHealth = maxHealth;
         setMaxHealth?.Invoke(maxHealth);
         //healthBar.SetMaxHealth(maxHealth);
@@ -41,21 +45,20 @@ public class Player : MonoBehaviour
     {
 
     }
-    
+
     private void TakeDamage(int damage, Collider2D myCollider)
     {
         if (!IsInvincible)
         {
-            if (myCollider == GetComponent<Collider2D>())
+            if (myCollider.CompareTag(this.tag))
             {
                 currentHealth -= damage;
                 updateHealth?.Invoke(currentHealth);
-                //healthBar.SetHealth(currentHealth);
-                
+
+                getHit?.Invoke();
+
                 if (currentHealth <= 0)
                 {
-                    // Debug.Log("Player Dead");
-                    
                     Die();
                 }
             }
@@ -68,7 +71,6 @@ public class Player : MonoBehaviour
         {
             currentHealth += hp;
             updateHealth?.Invoke(currentHealth);
-            //healthBar.SetHealth(currentHealth);
         }
     }
 

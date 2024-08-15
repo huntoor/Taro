@@ -1,66 +1,12 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : BaseEnemy
 {
-    [Header("Bullet")]
-    [SerializeField] private Transform firingPosition;
-    [SerializeField] private GameObject bullet;
-
-    public delegate void OnEnemyDeath();
-    public static OnEnemyDeath onEnemyDeath;
-
-    private enum State
-    {
-        Idle,
-        Attack
-    }
-
-    private State currentState;
-    private State CurrentState
-    {
-        get
-        {
-            return currentState;
-        }
-
-        set
-        {
-            currentState = value;
-
-            StateChanged();
-        }
-    }
-
-    private GameObject player;
-
-    private int bulletSpeed;
-    private int bulletDamage;
-
-    private float attackDelay;
-
-    private int health;
-
-    private void OnEnable()
-    {
-        Bullet.damageTarget += TakeDamage;
-    }
-
-    private void OnDestroy()
-    {
-        Bullet.damageTarget -= TakeDamage;
-    }
-
     private void Start()
     {
         CurrentState = State.Idle;
 
         player = null;
-
-        bulletSpeed = 20;
-        bulletDamage = 1;
-        attackDelay = 1.5f;
-
-        health = 3;
     }
 
     private void Update()
@@ -79,76 +25,32 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void StateChanged()
+    protected override void IdleState()
     {
-        switch (CurrentState)
-        {
-            case State.Idle:
-                IdleState();
-                break;
-            case State.Attack:
-                AttackState();
-                break;
-            default:
-                Debug.LogError("Error Something Worng with Enemy State");
-                break;
-        }
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<BoxCollider2D>().enabled = false;
     }
 
-    private void IdleState()
+    protected override void AttackState()
     {
-        this.GetComponent<SpriteRenderer>().enabled = false;
-        this.GetComponent<BoxCollider2D>().enabled = false;
+        GetComponent<SpriteRenderer>().enabled = true;
+        GetComponent<BoxCollider2D>().enabled = true;
     }
 
-    private void AttackState()
-    {
-        this.GetComponent<SpriteRenderer>().enabled = true;
-        this.GetComponent<BoxCollider2D>().enabled = true;
-    }
-
-    private void Shoot()
+    protected override void Shoot()
     {
         if (attackDelay < 0)
         {
-            GameObject bullet = Instantiate(this.bullet, firingPosition.position, transform.rotation);
+            GameObject bulletInstance = Instantiate(this.bullet, firingPosition.position, transform.rotation);
+            Bullet bullet = bulletInstance.GetComponent<Bullet>();
 
-            bullet.GetComponent<Bullet>().BulletSpeed = bulletSpeed;
-            bullet.GetComponent<Bullet>().BulletDamage = bulletDamage;
-            bullet.GetComponent<Bullet>().TargetTag = "Player";
-            bullet.GetComponent<Bullet>().Player = player;
+            bullet.BulletSpeed = bulletSpeed;
+            bullet.BulletDamage = bulletDamage;
+            bullet.TargetTag = "Player";
+            bullet.Player = player;
 
 
-            attackDelay = 1.5f;
+            attackDelay = attackSpeed;
         }
-    }
-
-    public void OnPlayerEneted(Collider2D player)
-    {
-        this.player = player.gameObject;
-
-        CurrentState = State.Attack;
-    }
-
-    private void TakeDamage(int damageToTake, Collider2D myCollider)
-    {
-        if (myCollider == GetComponent<Collider2D>())
-        {
-            health -= damageToTake;
-
-            if (health <= 0)
-            {
-                Die();
-            }
-        }
-    }
-
-    private void Die()
-    {
-        Debug.Log("Enemy Dead");
-
-        onEnemyDeath?.Invoke();
-
-        Destroy(gameObject);
     }
 }

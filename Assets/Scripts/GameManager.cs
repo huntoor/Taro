@@ -3,9 +3,30 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject gameFinishedPanel;
     
+    private PlayerStatus playerStatus;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else 
+        {
+            Instance = this;
+        }
+    }
+
+    private void Start()
+    {
+        playerStatus = PlayerSaveSystem.Instance.CurrentPlayerStatus;
+    }
+
     private void OnEnable()
     {
         Player.playerDead += StopGame;
@@ -51,8 +72,15 @@ public class GameManager : MonoBehaviour
 
     private void GoToNextLevel()
     {
+        PlayerSaveSystem.Instance.SaveData(playerStatus);
+
         gameFinishedPanel.SetActive(true);
 
         Time.timeScale = 0f;
+    }
+
+    public void SetPlayerData(PlayerStatus newPlayerStatus)
+    {
+        playerStatus = newPlayerStatus;
     }
 }

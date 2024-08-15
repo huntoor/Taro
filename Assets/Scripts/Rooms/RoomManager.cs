@@ -9,10 +9,11 @@ public class RoomManager : MonoBehaviour
 
     [SerializeField] private bool isFirstRoom;
     [SerializeField] private bool isLastRoom;
-    
+
     public bool IsRoomUnlocked { get; private set; }
 
     private int numberOfEnemiesInRoom;
+    private int numberOfBossesInRoom;
 
     public delegate void OnLastRoomFinished();
     public static OnLastRoomFinished onLastRoomFinished;
@@ -34,18 +35,20 @@ public class RoomManager : MonoBehaviour
         }
         myTransitionCamera = GetComponent<RoomTransition>();
 
-        numberOfEnemiesInRoom = GetComponentsInChildren<Enemy>().Length;
-        
+        numberOfEnemiesInRoom = GetComponentsInChildren<BaseEnemy>().Length;
+        numberOfBossesInRoom = GetComponentsInChildren<BaseBoss>().Length;
     }
 
     private void OnEnable()
     {
-        Enemy.onEnemyDeath += EnemyDied;
+        BaseEnemy.onEnemyDeath += EnemyDied;
+        BaseBoss.onEnemyDeath += BossDied;
     }
 
     private void OnDestroy()
     {
-        Enemy.onEnemyDeath -= EnemyDied;
+        BaseEnemy.onEnemyDeath -= EnemyDied;
+        BaseBoss.onEnemyDeath -= BossDied;
     }
 
     private void UnlockNextRoom()
@@ -75,16 +78,30 @@ public class RoomManager : MonoBehaviour
 
     private void EnemyDied()
     {
-        if (IsRoomUnlocked)
+        if (IsRoomUnlocked && numberOfEnemiesInRoom > 0)
         {
-            numberOfEnemiesInRoom -= 1;
-            Debug.Log(numberOfEnemiesInRoom);
-            if (numberOfEnemiesInRoom <= 0)
+            numberOfEnemiesInRoom = GetComponentsInChildren<BaseEnemy>().Length - 1;
+            Debug.Log(gameObject.name + ": " + numberOfEnemiesInRoom);
+            if (numberOfEnemiesInRoom <= 0 && numberOfBossesInRoom <= 0)
             {
                 UnlockNextRoom();
 
                 Debug.Log("All Enemies dead");
             }
+        }
+    }
+
+    private void BossDied()
+    {
+        if (IsRoomUnlocked && numberOfBossesInRoom > 0)
+        {
+            numberOfBossesInRoom = GetComponentsInChildren<BaseBoss>().Length - 1;
+
+            if (numberOfBossesInRoom <= 0 && numberOfEnemiesInRoom <= 0)
+            {
+                UnlockNextRoom();
+            }
+
         }
     }
 }
