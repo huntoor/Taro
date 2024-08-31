@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6953939082718663820}
   - component: {fileID: 1177601784233792480}
   - component: {fileID: 1018397329467188485}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ExplosionParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4901,7 +4901,7 @@ GameObject:
   - component: {fileID: 3258496002504902819}
   - component: {fileID: 2381742975462317348}
   - component: {fileID: 3514941725939054914}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ExplosiveBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4937,11 +4937,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionParticle: {fileID: 1177601784233792480}
-  radius: 1.8
+  explosiveRadius: 2
   force: 1
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!50 &3258496002504902819
 Rigidbody2D:
   serializedVersion: 4

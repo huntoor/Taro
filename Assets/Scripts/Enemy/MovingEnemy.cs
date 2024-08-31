@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class ExplosiveEnemy : BaseEnemy
+public class MovingEnemy : BaseEnemy
 {
     [SerializeField] private float enemySpeed;
     [SerializeField] private LayerMask collisionMask;
 
-
     private Rigidbody2D myRigidBody;
 
     private int movementDirection;
+    private int forwawrdMovementAmount;
     private float halfEnemySizeY;
 
     private void Awake()
@@ -22,6 +22,7 @@ public class ExplosiveEnemy : BaseEnemy
 
         player = null;
         movementDirection = 1;
+        forwawrdMovementAmount = 1;
 
         halfEnemySizeY = GetComponent<SpriteRenderer>().bounds.size.y / 2;
 
@@ -62,14 +63,12 @@ public class ExplosiveEnemy : BaseEnemy
         if (attackDelay < 0)
         {
             GameObject bulletInstance = Instantiate(this.bullet, firingPosition.position, transform.rotation);
-            ExplosiveBullet bullet = bulletInstance.GetComponent<ExplosiveBullet>();
-            
+            Bullet bullet = bulletInstance.GetComponent<Bullet>();
+
             bullet.BulletSpeed = bulletSpeed;
             bullet.BulletDamage = bulletDamage;
-            bullet.BulletChaseTimer = bulletChaseTimer;
             bullet.TargetTag = "Player";
             bullet.Player = player;
-            bullet.TargetMask = 1 << player.layer;
 
             attackDelay = attackSpeed;
         }
@@ -78,7 +77,7 @@ public class ExplosiveEnemy : BaseEnemy
     private void EnemyMovement()
     {
         Vector3 enemyPos = transform.position;
-        
+
         SwitchDirection(enemyPos);
 
         myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, movementDirection * enemySpeed);
@@ -94,10 +93,14 @@ public class ExplosiveEnemy : BaseEnemy
         if (pos.y >= topBorder && pos.y >= bottomBorder)
         {
             movementDirection = -1;
+
+            MoveForward();
         }
         else if (pos.y <= bottomBorder && pos.y <= topBorder)
         {
             movementDirection = 1;
+
+            MoveForward();
         }
 
         CheckCollision();
@@ -113,14 +116,24 @@ public class ExplosiveEnemy : BaseEnemy
             if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + extraStartingHight), Vector2.up, rayDistance, collisionMask).collider != null)
             {
                 movementDirection = -1;
+
+                MoveForward();
             }
         }
         else if (movementDirection == -1)
         {
             if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - extraStartingHight), Vector2.down, rayDistance, collisionMask).collider != null)
             {
-                movementDirection = 1; 
+                movementDirection = 1;
+
+                MoveForward();
             }
         }
     }
+
+    private void MoveForward()
+    {
+        transform.position = new Vector2(transform.position.x - forwawrdMovementAmount, transform.position.y);
+    }
+
 }

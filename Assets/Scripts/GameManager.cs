@@ -38,6 +38,11 @@ public class GameManager : MonoBehaviour
         Player.playerDead -= StopGame;
         RoomManager.onLastRoomFinished -= GoToNextLevel;
     }
+
+    private void GameStarted()
+    {
+        
+    }
     
     public void PauseButtonPressed()
     {
