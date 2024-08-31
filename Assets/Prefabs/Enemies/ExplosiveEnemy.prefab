@@ -135,3 +135,6 @@ MonoBehaviour:
   attackSpeed: 1.5
   bulletChaseTimer: 1
   enemySpeed: 6
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 192
