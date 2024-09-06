@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4240787512822199736
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8626794373700658087}
+  - component: {fileID: 6528245028874273434}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8626794373700658087
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4240787512822199736}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6528245028874273434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4240787512822199736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4da56b1fba6f444d8504bbe7b0b151d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - clipName: Theme
+    clip: {fileID: 8300000, guid: e36e68f1bd1e1b248875bdff9d0fd602, type: 3}
+    volume: 0.5
+    pitch: 1
+    pitchShifter: 0
+    loop: 1
+    source: {fileID: 0}
+  - clipName: FireBullet
+    clip: {fileID: 8300000, guid: ce946febe9e8a1446a166187c0839f28, type: 3}
+    volume: 0.5
+    pitch: 1
+    pitchShifter: 1
+    loop: 0
+    source: {fileID: 0}
+  - clipName: BulletExplode
+    clip: {fileID: 8300000, guid: fca199d022a48ba42a33878af98e9773, type: 3}
+    volume: 0.5
+    pitch: 1
+    pitchShifter: 1
+    loop: 0
+    source: {fileID: 0}
+  - clipName: BulletHit
+    clip: {fileID: 8300000, guid: 43e5763a2b477e24393f0295508a18b8, type: 3}
+    volume: 0.5
+    pitch: 1
+    pitchShifter: 1
+    loop: 0
+    source: {fileID: 0}

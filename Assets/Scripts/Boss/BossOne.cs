@@ -2,13 +2,6 @@ using UnityEngine;
 
 public class BossOne : BaseBoss
 {
-    private void Start()
-    {
-        CurrentState = State.Idle;
-
-        player = null;
-    }
-
     private void Update()
     {
         if (attackDelay >= 0)

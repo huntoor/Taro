@@ -29,9 +29,10 @@ public class ExplosiveBullet : BaseBullet
         }
     }
 
-    private void Awake()
+    protected override void Awake()
     {
-        myRigidBody = GetComponent<Rigidbody2D>();
+        base.Awake();
+
         myCollider = GetComponent<CircleCollider2D>();
 
         explosionParticle.Stop();
@@ -40,6 +41,8 @@ public class ExplosiveBullet : BaseBullet
     private void Start()
     {
         bulletLifeSpan = 3f;
+
+        FireBulletSound();
 
         IsExploded = false;
 
@@ -63,7 +66,7 @@ public class ExplosiveBullet : BaseBullet
 
         if (bulletLifeSpan <= 0)
         {
-            Destroy(gameObject);
+            DestoryBullet();
         }
 
         MoveBullet();
@@ -76,6 +79,7 @@ public class ExplosiveBullet : BaseBullet
         CameraShake.Instance.ShakeCamera(cameraShakeIntenisty, cameraShakeTimer);
 
         explosionParticle.Play();
+        FireExplosiveBulletSound();
 
         IsExploded = true;
 

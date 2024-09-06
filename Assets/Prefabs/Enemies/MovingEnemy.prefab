@@ -8,21 +8,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1609136204831302284, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
+      propertyPath: m_Offset.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4092694911791073262, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 15
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4092694911791073262, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
       propertyPath: m_LocalScale.y
-      value: 15
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4092694911791073262, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
       propertyPath: m_LocalScale.z
-      value: 15
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4092694911791073262, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 19.95
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4092694911791073262, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -38,15 +42,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4092694911791073262, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4092694911791073262, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4092694911791073262, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4092694911791073262, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -60,21 +64,69 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5341643273604085763, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
+      propertyPath: m_Size.x
+      value: 6.246916
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341643273604085763, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
+      propertyPath: m_Size.y
+      value: 1.6324952
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341643273604085763, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341643273604085763, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
+      propertyPath: m_Offset.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341643273604085763, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341643273604085763, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 6.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341643273604085763, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 3.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 6538738890732888130, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
+      propertyPath: enemySpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6538738890732888130, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
+      propertyPath: isMovingForward
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6538738890732888130, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
+      propertyPath: forwawrdMovementAmount
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8715791116307679992, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
       propertyPath: OnDetectionZoneEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2802562059071458502}
     - target: {fileID: 8832067599731883455, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832067599731883455, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 46d2236179127454a84c715cd505e7ef, type: 3}
+    - target: {fileID: 8832067599731883455, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
       propertyPath: m_Color.b
-      value: 0.13641146
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8832067599731883455, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
       propertyPath: m_Color.g
-      value: 0.30020738
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8832067599731883455, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
       propertyPath: m_Color.r
-      value: 0.6075471
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9158912096402282042, guid: 9aa091b0f5ee8a543b0e19d69f1d4b9a, type: 3}
       propertyPath: m_Name
@@ -111,8 +163,8 @@ MonoBehaviour:
   bullet: {fileID: 511814651299893395, guid: 9dfcb4da426a86c448d0a76fef3ff423, type: 3}
   health: 8
   bulletSpeed: 15
-  bulletDamage: 1
-  attackSpeed: 1.5
+  bulletDamage: 2
+  attackSpeed: 0.8
   bulletChaseTimer: 0
   enemySpeed: 8
   collisionMask:

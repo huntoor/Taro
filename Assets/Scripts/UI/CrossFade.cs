@@ -27,6 +27,8 @@ public class CrossFade : MonoBehaviour
 
     public void StartFadeIn()
     {
+        Time.timeScale = 0f;
+
         myAnimator.SetTrigger("FadeIn");
     }
 

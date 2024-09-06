@@ -1,3 +1,5 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +9,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject gameFinishedPanel;
+    [SerializeField] private GameObject countdownPanel;
+
+    private TextMeshProUGUI counterTimerText;
+    private float countdownTimer;
     
     private PlayerStatus playerStatus;
 
@@ -20,11 +26,16 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        // Time.timeScale = 0f;
     }
 
     private void Start()
     {
         playerStatus = PlayerSaveSystem.Instance.CurrentPlayerStatus;
+
+        counterTimerText = countdownPanel.GetComponentInChildren<TextMeshProUGUI>();
+        countdownTimer = 3f;
     }
 
     private void OnEnable()
@@ -39,9 +50,25 @@ public class GameManager : MonoBehaviour
         RoomManager.onLastRoomFinished -= GoToNextLevel;
     }
 
-    private void GameStarted()
+    public void StartGame()
     {
-        
+        StartCoroutine(GameCounterEnum());
+    }
+
+    private IEnumerator GameCounterEnum()
+    {
+        while (countdownTimer > 0f)
+        {
+            counterTimerText.text = countdownTimer.ToString();
+
+            countdownTimer--;
+
+            yield return new WaitForSecondsRealtime(1f);
+        }
+        countdownPanel.SetActive(false);
+
+        Time.timeScale = 1f;
+
     }
     
     public void PauseButtonPressed()

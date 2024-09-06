@@ -2,14 +2,12 @@ using UnityEngine;
 
 public class Bullet : BaseBullet
 {
-    private void Awake()
-    {
-        myRigidBody = GetComponent<Rigidbody2D>();
-    }
 
     private void Start()
     {
         bulletLifeSpan = 3f;
+        
+        FireBulletSound();
 
         if (TargetTag == "Player" && Player != null)
         {
@@ -23,7 +21,7 @@ public class Bullet : BaseBullet
 
         if (bulletLifeSpan < 0)
         {
-            Destroy(gameObject);
+            DestoryBullet();
         }
 
         MoveBullet();
@@ -50,7 +48,9 @@ public class Bullet : BaseBullet
         {
             damageTarget?.Invoke(BulletDamage, body);
 
-            Destroy(gameObject);
+            // DestoryBullet();
+            BulletSpeed = 0f;
+            animator.SetTrigger("hit");
         }
     }
 }

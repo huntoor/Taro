@@ -15,6 +15,8 @@ public abstract class BaseBoss : MonoBehaviour
     [SerializeField] protected float attackSpeed;
     [SerializeField] protected float bulletChaseTimer;
 
+    protected Rigidbody2D myRigidBody;
+
     protected float attackDelay;
 
     public delegate void OnEnemyDeath();
@@ -43,6 +45,18 @@ public abstract class BaseBoss : MonoBehaviour
     }
 
     protected GameObject player;
+
+    protected virtual void Start()
+    {
+        CurrentState = State.Idle;
+
+        player = null;
+    }
+
+    protected virtual void Awake()
+    {
+        myRigidBody = GetComponent<Rigidbody2D>();
+    }
 
     protected void OnEnable()
     {
@@ -84,7 +98,6 @@ public abstract class BaseBoss : MonoBehaviour
     {
         if (myCollider == GetComponent<Collider2D>())
         {
-            Debug.Log("Boss Hit");
             health -= damageToTake;
 
             if (health <= 0)

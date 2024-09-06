@@ -71,14 +71,14 @@ public class PlayerPowerUps : MonoBehaviour
     {
         playerSavedStatus = PlayerSaveSystem.Instance.CurrentPlayerStatus;
 
-        attackDelay = 0f;
-        shieldCooldownTimer = 0f;
-        activeShieldTimer = 0.5f;
-        bulletSpeed = 50;
-
         attackSpeed = playerSavedStatus.playerAttackSpeed;
         attackDamage = playerSavedStatus.playerDamage;
         shieldCooldown = playerSavedStatus.playerShieldCooldown;
+
+        attackDelay = attackSpeed;
+        shieldCooldownTimer = 0f;
+        activeShieldTimer = 0.5f;
+        bulletSpeed = 50;
     }
 
     private void Update()

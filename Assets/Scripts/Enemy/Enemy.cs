@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class Enemy : BaseEnemy
 {
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         CurrentState = State.Idle;
 
         player = null;
@@ -41,6 +42,8 @@ public class Enemy : BaseEnemy
     {
         if (attackDelay < 0)
         {
+            FireAttackAnimation();
+            
             GameObject bulletInstance = Instantiate(this.bullet, firingPosition.position, transform.rotation);
             Bullet bullet = bulletInstance.GetComponent<Bullet>();
 

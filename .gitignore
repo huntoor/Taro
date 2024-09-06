@@ -74,3 +74,6 @@ crashlytics-build.properties
 .OffGame
 .Build
 .turtle_animation_render
+.enemies
+.bullet
+playerData.json

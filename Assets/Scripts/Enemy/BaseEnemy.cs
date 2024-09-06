@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public abstract class BaseEnemy : MonoBehaviour
@@ -43,6 +44,8 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected GameObject player;
 
+    private Animator animator;
+
     protected void OnEnable()
     {
         BaseBullet.damageTarget += TakeDamage;
@@ -51,6 +54,16 @@ public abstract class BaseEnemy : MonoBehaviour
     protected void OnDestroy()
     {
         BaseBullet.damageTarget -= TakeDamage;
+    }
+
+    protected virtual void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
+    protected virtual void Start()
+    {
+        attackDelay = attackSpeed;
     }
 
     private void LateUpdate()
@@ -96,6 +109,8 @@ public abstract class BaseEnemy : MonoBehaviour
         {
             health -= damageToTake;
 
+            StartCoroutine(HitEffect());
+
             if (health <= 0)
             {
                 Die();
@@ -103,11 +118,25 @@ public abstract class BaseEnemy : MonoBehaviour
         }
     }
 
+    private IEnumerator HitEffect()
+    {
+        GetComponent<SpriteRenderer>().color = Color.red;
+
+        yield return new WaitForSeconds(0.1f);
+        
+        GetComponent<SpriteRenderer>().color = Color.white;
+    }
+
     private void Die()
     {
         onEnemyDeath?.Invoke();
 
         Destroy(gameObject);
+    }
+
+    protected void FireAttackAnimation()
+    {
+        animator.SetTrigger("shoot");
     }
 
     protected abstract void IdleState();
